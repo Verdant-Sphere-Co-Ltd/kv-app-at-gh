@@ -10,6 +10,10 @@ jobs:
     name: 'Build Laravel App'
     runs-on: ubuntu-latest
     steps:
-      - name: 'Hello'
+      - name: 'Install Dependencies'
         run: |
-          echo 'HELLO'
+          composer install
+
+      - name: 'Build the Application'
+        run: |
+          php artisan key:generate
