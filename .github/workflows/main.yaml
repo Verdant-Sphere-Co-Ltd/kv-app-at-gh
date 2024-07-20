@@ -10,6 +10,7 @@ jobs:
     name: 'Build Laravel App'
     runs-on: ubuntu-latest
     steps:
+
       - name: 'Install Composer for OS'
         run: |
           sudo apt update
@@ -32,6 +33,10 @@ jobs:
       - name: 'Install Dependencies'
         run: |
           composer install
+
+      - name: 'Setup Environmental Variables'
+        run: |
+          cp .env.ci .env
 
       - name: 'Build the Application'
         run: |
