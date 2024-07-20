@@ -41,3 +41,7 @@ jobs:
       - name: 'Build the Application'
         run: |
           php artisan key:generate
+
+      - name: 'Run Unit Testing'
+        run: |
+          php artisan test
