@@ -56,7 +56,10 @@ jobs:
 
       - name: '[1.6.3] Set Delay to Start Database inside Container'
         run: |
-          sleep 5
+          while ! docker exec my-mysql-container mysqladmin ping --host=127.0.0.1 --user=root --password=password --silent &> /dev/null; do
+            echo 'Waiting for MySQL to be ready...'
+            sleep 5
+          done
 
       - name: '[1.7] Migrate the Database'
         run: |
