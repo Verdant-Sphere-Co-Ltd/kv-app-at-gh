@@ -48,6 +48,10 @@ jobs:
         run: |
           docker ps
 
+      - name: '[1.6.2] Check Network Status'
+        run: |
+          netstat -an | grep 3306
+
       - name: '[1.7] Migrate the Database'
         run: |
           php artisan migrate
