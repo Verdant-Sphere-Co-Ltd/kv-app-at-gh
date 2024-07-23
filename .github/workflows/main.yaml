@@ -14,6 +14,17 @@ jobs:
   build:
     name: '[1] Build Laravel App'
     runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:latest
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: false
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_USERNAME: root
+          MYSQL_DATABASE: test
+
     steps:
       - name: '[1.1] Setup PHP with PECL extension'
         uses: shivammathur/setup-php@v2
@@ -30,36 +41,10 @@ jobs:
       - name: '[1.4] Setup Environmental Variables'
         run: |
           cp .env.ci .env
-          cat .env
 
       - name: '[1.5] Generate Key & Build the Application'
         run: |
           php artisan key:generate
-
-      - name: '[1.6] Run MySQL Container'
-        run: |
-          docker run -d \
-            --name my-mysql-container \
-            -e MYSQL_ALLOW_EMPTY_PASSWORD=false \
-            -e MYSQL_ROOT_PASSWORD=password \
-            -e MYSQL_DATABASE=test \
-            -p 3306:3306 \
-            mysql:8.0.25
-      
-      - name: '[1.6.1] Check Docker Status'
-        run: |
-          docker ps
-
-      - name: '[1.6.2] Check Network Status'
-        run: |
-          netstat -an | grep 3306
-
-      - name: '[1.6.3] Set Delay to Start Database inside Container'
-        run: |
-          while ! docker exec my-mysql-container mysqladmin ping --host=127.0.0.1 --user=root --password=password --silent &> /dev/null; do
-            echo 'Waiting for MySQL to be ready...'
-            sleep 5
-          done
 
       - name: '[1.7] Migrate the Database'
         run: |
