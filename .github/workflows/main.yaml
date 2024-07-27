@@ -40,6 +40,7 @@ jobs:
       - name: '[1.4] Setup Environmental Variables'
         run: |
           cp .env.ci .env
+          cp .env.ci .env.testing
 
       - name: '[1.5] Generate Key & Build the Application'
         run: |
@@ -84,6 +85,7 @@ jobs:
       - name: '[2.4] Setup Environmental Variables'
         run: |
           cp .env.ci .env
+          cp .env.ci .env.testing
 
       - name: '[2.5] Generate Key & Build the Application'
         run: |
