@@ -31,6 +31,14 @@ jobs:
         run: |
           composer install
 
+      - name: '[1.4] Setup Environmental Variables'
+        run: |
+          cp .env.ci .env
+
+      - name: '[1.5] Generate Key & Build the Application'
+        run: |
+          php artisan key:generate
+
   test:
     name: '[2] Test Larevel App'
     runs-on: ubuntu-latest
@@ -55,18 +63,22 @@ jobs:
       - name: '[2.2] Checkout'
         uses: actions/checkout@v4
         
-      - name: '[2.3] Setup Environmental Variables'
+      - name: '[2.3] Install Dependencies'
+        run: |
+          composer install
+
+      - name: '[2.4] Setup Environmental Variables'
         run: |
           cp .env.ci .env
 
-      - name: '[2.4] Generate Key & Build the Application'
+      - name: '[2.5] Generate Key & Build the Application'
         run: |
           php artisan key:generate
 
-      - name: '[2.5] Migrate the Database'
+      - name: '[2.6] Migrate the Database'
         run: |
           php artisan migrate
 
-      - name: '[2.6] Run Unit Testing'
+      - name: '[2.7] Run Unit Testing'
         run: |
           php artisan test
