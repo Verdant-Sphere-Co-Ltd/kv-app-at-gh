@@ -56,7 +56,3 @@ jobs:
       - name: '[1.8] Run Unit Testing'
         run: |
           php artisan test
-
-      - name: '[1.9] Package Image as Container'
-        run: |
-
