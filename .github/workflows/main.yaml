@@ -17,16 +17,6 @@ jobs:
   build:
     name: '[1] Build Laravel App'
     runs-on: ubuntu-latest
-    services:
-      mysql:
-        image: mysql:latest
-        ports:
-          - 3306:3306
-        env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: false
-          MYSQL_ROOT_PASSWORD: password
-          MYSQL_USERNAME: root
-          MYSQL_DATABASE: test
 
     steps:
       - name: '[1.1] Setup PHP with PECL extension'
@@ -49,10 +39,34 @@ jobs:
         run: |
           php artisan key:generate
 
-      - name: '[1.7] Migrate the Database'
+	test:
+		name: '[2] Test Larevel App'
+		runs-on: ubuntu-latest
+		needs: [build]
+    services:
+      mysql:
+        image: mysql:latest
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: false
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_USERNAME: root
+          MYSQL_DATABASE: test
+
+		steps:
+      - name: '[2.1] Setup PHP with PECL extension'
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          
+      - name: '[2.2] Checkout'
+        uses: actions/checkout@v4
+        
+      - name: '[2.3] Migrate the Database'
         run: |
           php artisan migrate
 
-      - name: '[1.8] Run Unit Testing'
+      - name: '[2.4] Run Unit Testing'
         run: |
           php artisan test
