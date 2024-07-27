@@ -34,7 +34,7 @@ jobs:
       - name: 'Cache Vendor Folder'
         uses: actions/cache@v4.0.2
         with:
-          key: 'php-vendor-cache'
+          key: ${{ github.sha }}-'php-vendor-cache'
           path: ./vendor
 
       - name: '[1.4] Setup Environmental Variables'
