@@ -39,10 +39,10 @@ jobs:
         run: |
           php artisan key:generate
 
-	test:
-		name: '[2] Test Larevel App'
-		runs-on: ubuntu-latest
-		needs: [build]
+  test:
+	name: '[2] Test Larevel App'
+	runs-on: ubuntu-latest
+	needs: [build]
     services:
       mysql:
         image: mysql:latest
@@ -54,7 +54,7 @@ jobs:
           MYSQL_USERNAME: root
           MYSQL_DATABASE: test
 
-		steps:
+	steps:
       - name: '[2.1] Setup PHP with PECL extension'
         uses: shivammathur/setup-php@v2
         with:
